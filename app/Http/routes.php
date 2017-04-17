@@ -14,15 +14,17 @@
 // Route::get('/', function () {
 //     return view('welcome');
 // });
-
-Route::get('/money', function () {
-    return '哈哈哈';
-});
-
-Route::get('/now', function () {
-    return date('Y-m-d: H:i:s');
+Route::group(['middleware' => 'auth', 'namespace' => 'Admin', 'prefix' => 'admin'], function() {
+    Route::get('/', 'HomeController@index');
+    Route::resource('article', 'ArticleController');
 });
 
 Route::auth();
 
 Route::get('/', 'HomeController@index');
+Route::get('article/{id}', 'ArticleController@show');
+Route::post('comment', 'CommentController@store');
+// Route::post('comment', function ()
+// {
+//   echo "哈哈哈";
+// });
