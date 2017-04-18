@@ -24,7 +24,7 @@ Route::auth();
 Route::get('/', 'HomeController@index');
 Route::get('article/{id}', 'ArticleController@show');
 Route::post('comment', 'CommentController@store');
-// Route::post('comment', function ()
-// {
-//   echo "哈哈哈";
-// });
+Route::get('home', function ()
+{
+	return redirect('/');
+});
