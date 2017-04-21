@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Comment;
+use App\Article;
 
 /**
 * 管理评论
@@ -15,7 +16,8 @@ class CommentController extends Controller
 {
   public function index()
   {
-    return view('admin/comment/index')->withComments(Comment::all());
+    $comments = Comment::all();
+    return view('admin/comment/index')->withComments($comments);
   }
 
   public function edit($comment_id)

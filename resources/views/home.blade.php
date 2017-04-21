@@ -20,7 +20,7 @@
     <div id="content">
         <ul>
             @foreach ($articles as $article)
-            <li style="margin: 50px 0;">
+            <li class="col-xs-11">
                 <div class="title">
                     <a href="{{ url('article/'.$article->id ) }}">
                         <h4>{{ $article->title }}</h4>

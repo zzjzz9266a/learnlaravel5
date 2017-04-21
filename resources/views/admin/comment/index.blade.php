@@ -1,9 +1,9 @@
 @extends('layouts.app')
-
 @section('content')
+
 <div class="container">
   <div class="row">
-    <div class="col-xs-10 col-xs-offset-1">
+    <div class="col-xs-12">
       <div class="panel panel-primary">
         <div class="panel-heading"><h3 class="panel-title">评论管理</h3></div>
         <div class="panel-body">
@@ -27,12 +27,12 @@
                     <br>
                     <p>{{ $comment->email }}</p>
                   </td>
-                  <td><a href="{{ url('article/'.$comment->article_id) }}">标题！！</a></td>
+                  <td><a href="{{ url('article/'.$comment->article_id) }}">{{ $comment->articleTitle() }}</a></td>
                   <td>
                     <a href="{{ url('admin/comment/'.$comment->id.'/edit') }}" class="btn btn-success">编辑</a>
                   </td> 
                   <td>
-                    <form action="{{ url('admin/comment'.$comment->id) }}" method="POST" style="display: inline;">
+                    <form action="{{ url('admin/comment/'.$comment->id) }}" method="POST" style="display: inline;">
                       {{ method_field('DELETE') }}
                       {{ csrf_field() }}
                       <button type="submit" class="btn btn-danger">删除</button>
