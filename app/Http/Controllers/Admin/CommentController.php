@@ -39,7 +39,9 @@ class CommentController extends Controller
 
   public function destroy($comment_id)  
   {
-    $comment = Comment::find($comment_id)->delete();
-    return redirect()->back()->withInput()->withErrors("删除成功");
+    if ($comment = Comment::find($comment_id)->delete()){
+      return "OK";
+    }
+    // return redirect()->back()->withInput()->withErrors("删除成功");
   }
 }

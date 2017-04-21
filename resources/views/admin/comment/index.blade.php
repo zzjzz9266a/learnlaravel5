@@ -1,6 +1,25 @@
 @extends('layouts.app')
 @section('content')
 
+
+<div class="modal fade" id="comment-del" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+      </div>
+      <div class="modal-body">
+        确定要删除此评论么？
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <div class="container">
   <div class="row">
     <div class="col-xs-12">
@@ -32,11 +51,14 @@
                     <a href="{{ url('admin/comment/'.$comment->id.'/edit') }}" class="btn btn-success">编辑</a>
                   </td> 
                   <td>
-                    <form action="{{ url('admin/comment/'.$comment->id) }}" method="POST" style="display: inline;">
+                    <button class="btn btn-danger comment-delete" comment-id={{$comment->id}}>
+                      删除
+                    </button>
+                    {{-- <form action="{{ url('admin/comment/'.$comment->id) }}" method="POST" style="display: inline;">
                       {{ method_field('DELETE') }}
                       {{ csrf_field() }}
                       <button type="submit" class="btn btn-danger">删除</button>
-                    </form>
+                    </form> --}}
                   </td>
                 </tr>
               @endforeach
@@ -48,4 +70,37 @@
     </div>
   </div>
 </div>
+<script>
+  // $.ajaxSetup({
+  //   headers: { 'X-CSRF-TOKEN' : '{{ csrf_token() }}' }
+  // });
+  $('.comment-delete').click(function(){
+    var button = $(this)
+    var id = button.attr('comment-id');
+    sweetAlert({
+      title: '确认删除此条评论？',
+      type: 'warning',
+      allowOutsideClick: true,
+      showCancelButton: true,
+    },function () {
+      $.ajax({
+        url: '{{ url('admin/comment') }}' + '/' + id,
+        type: "post",
+        data: {
+          '_token': '{{ csrf_token() }}',
+          '_method': 'DELETE'
+        },
+        success: function (status,msg) {
+          if (msg === 'success' && status === 'OK'){
+            swal({
+              title: '删除成功'
+            },function () {
+              window.location.reload();
+            })
+          }
+        }
+      });
+    })
+  })
+</script>
 @endsection
